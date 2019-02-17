@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CitasForm extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class CitasForm extends StatefulWidget {
 class _CitasFormState extends State<CitasForm> {
   String _paciente;
   DateTime _fecha;
-  String _consulta;
+  String _servicio;
   String _lugar;
 
   DateTime _date = new DateTime.now();
@@ -33,8 +34,21 @@ class _CitasFormState extends State<CitasForm> {
     }
   }
 
-  var _pacientes = ['Antonio', 'Mamen', 'Pablo Antonio', 'Elisa'];
-  var currentItemSelected = 'Antonio';
+  var _pacientes = [
+    'Pepe',
+    'Manolo',
+    'Juan',
+    'Paco',
+  ];
+  var _servicios = [
+    'Oftalmologia',
+    'Dermatologia',
+    'Maxilofacial',
+    'Reuma',
+  ];
+
+  var currentItemSelectedPaciente = 'Pepe';
+  var currentItemSelectedServicio = 'Oftalmologia';
 
   Widget _buildPacienteTextField() {
     return TextFormField(
@@ -49,49 +63,112 @@ class _CitasFormState extends State<CitasForm> {
     );
   }
 
+  Widget _builTitle() {
+    //_paciente = null;
+    return Text(
+        _paciente != null ? 'Nueva Cita para $_paciente' : 'Nueva Cita');
+  }
+
+  Widget _buildDropDown(List<String> array, String variable) {
+    return DropdownButton<String>(
+      items: array.map((String dropDownStringItem) {
+        return DropdownMenuItem<String>(
+          value: dropDownStringItem,
+          child: Text(
+            dropDownStringItem,
+            style: TextStyle(fontSize: 20.0),
+          ),
+        );
+      }).toList(),
+      onChanged: (String newValueSelected) {
+        setState(() {
+          this.currentItemSelectedPaciente = newValueSelected;
+          variable = newValueSelected;
+        });
+      },
+      value: this.currentItemSelectedPaciente,
+      //value: variable.toString()!=null ? '':variable.toString(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nueva Cita $_paciente'),
+        title: _builTitle(),
       ),
       body: Form(
         child: Container(
           child: Column(children: <Widget>[
             _buildPacienteTextField(),
+
+            //_buildDropDown(_pacientes, _paciente),
+            //Desplegable de pacientes
+
             DropdownButton<String>(
               items: _pacientes.map((String dropDownStringItem) {
                 return DropdownMenuItem<String>(
                   value: dropDownStringItem,
-                  child: Text(dropDownStringItem),
+                  child: Text(
+                    dropDownStringItem,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
                 );
               }).toList(),
               onChanged: (String newValueSelected) {
                 setState(() {
-                  this.currentItemSelected = newValueSelected;
+                  this.currentItemSelectedPaciente = newValueSelected;
                   _paciente = newValueSelected;
                 });
               },
-              value: currentItemSelected,
+              value: this.currentItemSelectedPaciente,
             ),
-            new Text('Fecha Seleccionada: ${_date.toString()}'),
-            new RaisedButton(
-                child: Text('Selecciona Fecha'),
-                onPressed: () {
-              _selectDate(context);
-            }),
+
+            //new Text('Fecha Seleccionada: ${_date.toString()}'),
+
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: new RaisedButton(
+                  child: Text('Selecciona Fecha'),
+                  onPressed: () {
+                    _selectDate(context);
+                  }),
+            ),
+            new Text(
+                'Cita programada para el ${_date.day}/${_date.month}/${_date.year}'),
+
+            //Desplegable de servicios
+
+            DropdownButton<String>(
+              items: _servicios.map((String dropDownStringItem) {
+                return DropdownMenuItem<String>(
+                  value: dropDownStringItem,
+                  child: Text(
+                    dropDownStringItem,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                );
+              }).toList(),
+              onChanged: (String newValueSelected) {
+                setState(() {
+                  this.currentItemSelectedServicio = newValueSelected;
+                  _servicio = newValueSelected;
+                });
+              },
+              value: this.currentItemSelectedServicio,
+            ),
+
             TextFormField(
               decoration: InputDecoration(labelText: 'Paciente'),
-
               onSaved: (String value) {
                 setState(() {
                   //_paciente = value;
-                  value = _paciente;
+                  //value = _builTitle().toString();
                 });
               },
-
-            )
+            ),
           ]),
         ),
       ),

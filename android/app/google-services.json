@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "543214146535",
+    "firebase_url": "https://citas-medicas-198c4.firebaseio.com",
+    "project_id": "citas-medicas-198c4",
+    "storage_bucket": "citas-medicas-198c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543214146535:android:984f41d0fe8f0447",
+        "android_client_info": {
+          "package_name": "com.antonio.citasapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543214146535-j2667h853cosabtq2tvjj2jthul4eu3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiNJSyjdAyBIiFwkBIKwas_WkCRA_X0TE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import './pages/principal.dart';
 import './pages/citas.dart';
+import './pages/pruebaFB.dart';
+import './pages/verCitas.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +16,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => Principal(),
         '/nuevacita': (BuildContext context) => CitasForm(),
+        '/pruebaFB': (BuildContext context) => PruebaFB(),
+        '/visorCitas': (BuildContext context) =>VisorCitas(),
       },
+
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.deepOrange,
