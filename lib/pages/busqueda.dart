@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import './widgets/CitasCard.dart';
+import '../dataAccess.dart';
+import '../widgets/CitasCard.dart';
+
+class BusquedaCitas extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _BusquedaCitasState();
+  }
+}
+
+class _BusquedaCitasState extends State<BusquedaCitas> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Consulta de Citas'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          color: Colors.blueGrey,
+        ),
+        child: buildBody(context),
+      ),
+    );
+  }
+}
 
 Widget buildBody(BuildContext context) {
   // TODO: get actual snapshot from Cloud Firestore
   return StreamBuilder<QuerySnapshot>(
-    stream: Firestore.instance.collection('citas').snapshots(),
+    stream: fetchCitaPaciente('Maria'),
+    //stream: fetchCitaIndice('acax20193'),
+
     builder: (context, snapshot) {
       if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -63,36 +93,4 @@ class Cita {
 
   @override
   String toString() => "Record<$paciente:$servicio>";
-}
-
-void addCita(String paciente, String servicio, DateTime fechaSolicitada) {
-  String indice = paciente.substring(1, 3) +
-      servicio.substring(1, 3) +
-      fechaSolicitada.year.toString() +
-      fechaSolicitada.month.toString();
-
-  final DocumentReference = Firestore.instance.document("citas/${indice}");
-  Map<String, dynamic> cita = <String, dynamic>{
-    "paciente": paciente,
-    "servicio": servicio,
-    "fechaHora": fechaSolicitada,
-  };
-
-
-  DocumentReference.setData(cita).whenComplete(() {
-    print('Anadido: ${paciente} con ${servicio}');
-  }).catchError((e) => print(e));
-}
-
-fetchCitaPaciente(String paciente) {
-  return Firestore.instance
-      .collection("citas")
-      .where('paciente', isEqualTo: paciente)
-      .snapshots();
-}
-
-
-fetchCitaIndice(String indice) {
-  return Firestore.instance.collection('citas/${indice}').snapshots();
-
 }

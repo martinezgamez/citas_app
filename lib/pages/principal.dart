@@ -15,7 +15,7 @@ class Principal extends StatelessWidget {
             _buildButtonColumn(
                 Icons.add_circle, 'Nueva Cita', context, '/nuevacita'),
             _buildButtonColumn(
-                Icons.search, 'Buscar Cita', context, '/pruebaFB'),
+                Icons.search, 'Buscar Cita', context, '/busqueda'),
             _buildButtonColumn(Icons.announcement, 'Ver Todas las citas', context, '/visorCitas')
           ],
         ),
